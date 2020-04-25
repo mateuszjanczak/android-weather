@@ -40,33 +40,52 @@ public class WeatherActivity extends AppCompatActivity {
         call.enqueue(new Callback<WeatherModel>() {
             @Override
             public void onResponse(@NonNull Call<WeatherModel> call, @NonNull Response<WeatherModel> response) {
-                if (response.code() == 200) {
-                    WeatherModel weatherResponse = response.body();
-                    assert weatherResponse != null;
 
-                    String stringBuilder =
-                            "Temperature: " +
-                            weatherResponse.main.temp +
-                            "\n" +
-                            "Temperature(Min): " +
-                            weatherResponse.main.temp_min +
-                            "\n" +
-                            "Temperature(Max): " +
-                            weatherResponse.main.temp_max +
-                            "\n" +
-                            "Humidity: " +
-                            weatherResponse.main.humidity +
-                            "\n" +
-                            "Pressure: " +
-                            weatherResponse.main.pressure;
+                if(!response.isSuccessful()){
+                    Intent data = new Intent();
+                    data.putExtra("code", "Error: " + String.valueOf(response.message()));
 
-                    statusText.setText(stringBuilder);
+                    if(response.code() == 404) {
+                        data.putExtra("code", "City not found");
+                    }
+
+                    setResult(400, data);
+                    finish();
+                    return;
                 }
+
+                WeatherModel weatherResponse = response.body();
+                assert weatherResponse != null;
+
+                String stringBuilder =
+                        "Temperature: " +
+                        weatherResponse.main.temp +
+                        "\n" +
+                        "Temperature(Min): " +
+                        weatherResponse.main.temp_min +
+                        "\n" +
+                        "Temperature(Max): " +
+                        weatherResponse.main.temp_max +
+                        "\n" +
+                        "Humidity: " +
+                        weatherResponse.main.humidity +
+                        "\n" +
+                        "Pressure: " +
+                        weatherResponse.main.pressure;
+
+                statusText.setText(stringBuilder);
+
             }
 
             @Override
             public void onFailure(@NonNull Call<WeatherModel> call, @NonNull Throwable t) {
                 statusText.setText(t.getMessage());
+
+                Intent data = new Intent();
+                data.putExtra("code", "Error: " + String.valueOf(t.getMessage()));
+
+                setResult(400, data);
+                finish();
             }
         });
     }
