@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.squareup.picasso.Picasso;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,6 +19,7 @@ public class WeatherActivity extends AppCompatActivity {
     public static String AppId = "749561a315b14523a8f5f1ef95e45864";
     private String city;
     private TextView statusText;
+    private ImageView weatherIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,8 @@ public class WeatherActivity extends AppCompatActivity {
         Intent intent = getIntent();
         city = intent.getStringExtra("city");
 
-        statusText = findViewById(R.id.statusText);
+        //statusText = findViewById(R.id.statusText);
+        weatherIcon = findViewById(R.id.weatherIcon);
         checkWeather();
     }
 
@@ -57,6 +61,14 @@ public class WeatherActivity extends AppCompatActivity {
                 WeatherModel weatherResponse = response.body();
                 assert weatherResponse != null;
 
+
+                String icon = weatherResponse.weather.get(0).icon;
+                String iconUrl = "http://fastup.pl/data/mj/WeatherIcons/" + icon + ".png";
+
+                Picasso.get().setLoggingEnabled(true);
+                Picasso.get().load(iconUrl).into(weatherIcon);
+
+
                 String stringBuilder =
                         "Temperature: " +
                         weatherResponse.main.temp +
@@ -73,7 +85,7 @@ public class WeatherActivity extends AppCompatActivity {
                         "Pressure: " +
                         weatherResponse.main.pressure;
 
-                statusText.setText(stringBuilder);
+                //statusText.setText(stringBuilder);
 
             }
 

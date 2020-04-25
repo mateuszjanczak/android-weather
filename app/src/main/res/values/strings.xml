@@ -3,4 +3,9 @@
     <string name="check_the_weather">Check the weather</string>
     <string name="city">City</string>
     <string name="obraz">obraz</string>
+    <string name="temperature">Temperature</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="temperature_max">Temperature max</string>
+    <string name="temperature_min">Temperature min</string>
 </resources>
