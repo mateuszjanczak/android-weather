@@ -1,11 +1,22 @@
 package com.mateuszjanczak.weather;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WeatherActivity extends AppCompatActivity {
+
+    public static String BaseUrl = "https://api.openweathermap.org/";
+    public static String AppId = "749561a315b14523a8f5f1ef95e45864";
+    private String city;
+    private TextView statusText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -13,6 +24,50 @@ public class WeatherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_weather);
 
         Intent intent = getIntent();
-        String city = intent.getStringExtra("city");
+        city = intent.getStringExtra("city");
+
+        statusText = findViewById(R.id.statusText);
+        checkWeather();
+    }
+
+    void checkWeather() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BaseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WeatherService service = retrofit.create(WeatherService.class);
+        Call<WeatherModel> call = service.getCurrentWeatherData(city, AppId, "metric");
+        call.enqueue(new Callback<WeatherModel>() {
+            @Override
+            public void onResponse(@NonNull Call<WeatherModel> call, @NonNull Response<WeatherModel> response) {
+                if (response.code() == 200) {
+                    WeatherModel weatherResponse = response.body();
+                    assert weatherResponse != null;
+
+                    String stringBuilder =
+                            "Temperature: " +
+                            weatherResponse.main.temp +
+                            "\n" +
+                            "Temperature(Min): " +
+                            weatherResponse.main.temp_min +
+                            "\n" +
+                            "Temperature(Max): " +
+                            weatherResponse.main.temp_max +
+                            "\n" +
+                            "Humidity: " +
+                            weatherResponse.main.humidity +
+                            "\n" +
+                            "Pressure: " +
+                            weatherResponse.main.pressure;
+
+                    statusText.setText(stringBuilder);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<WeatherModel> call, @NonNull Throwable t) {
+                statusText.setText(t.getMessage());
+            }
+        });
     }
 }
