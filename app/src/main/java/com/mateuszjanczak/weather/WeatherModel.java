@@ -11,6 +11,8 @@ public class WeatherModel {
     Main main;
     @SerializedName("name")
     String name;
+    @SerializedName("timezone")
+    int timezone;
 }
 
 class Weather {

@@ -8,8 +8,9 @@
 
     <ImageView
         android:id="@+id/weatherIcon"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginTop="16dp"
         android:foregroundGravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,21 +18,35 @@
 
     <TextView
         android:id="@+id/cityName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Tarnów"
-        android:textColor="#009688"
+        android:textStyle="bold"
+        android:textColor="#28516C"
         android:textSize="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weatherIcon" />
+        app:layout_constraintTop_toBottomOf="@+id/weatherIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="#326687"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cityName" />
 
     <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        app:layout_constraintTop_toTopOf="@+id/cityName"
+        android:layout_marginTop="39dp"
+        app:layout_constraintTop_toTopOf="@id/time"
         tools:layout_editor_absoluteX="0dp">
 
         <TableRow style="@style/table_row">
@@ -44,18 +59,15 @@
 
                     <TextView
                         android:id="@+id/temperatureTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/temperature"
-                        android:textSize="20dp" />
+                        style="@style/heading"
+                        android:text="@string/temperature" />
                 </TableRow>
 
                 <TableRow style="@style/table_row_two">
 
                     <TextView
                         android:id="@+id/temperature"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/heading_value" />
                 </TableRow>
 
             </TableLayout>
@@ -71,18 +83,15 @@
 
                     <TextView
                         android:id="@+id/pressureTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/pressure"
-                        android:textSize="20dp" />
+                        style="@style/heading"
+                        android:text="@string/pressure" />
                 </TableRow>
 
                 <TableRow style="@style/table_row_two">
 
                     <TextView
                         android:id="@+id/pressure"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/heading_value" />
                 </TableRow>
 
             </TableLayout>
@@ -98,18 +107,15 @@
 
                     <TextView
                         android:id="@+id/humidityTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/humidity"
-                        android:textSize="20dp" />
+                        style="@style/heading"
+                        android:text="@string/humidity" />
                 </TableRow>
 
                 <TableRow style="@style/table_row_two">
 
                     <TextView
                         android:id="@+id/humidity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/heading_value" />
                 </TableRow>
 
             </TableLayout>
@@ -125,18 +131,15 @@
 
                     <TextView
                         android:id="@+id/temperatureMinTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/temperature_min"
-                        android:textSize="20dp" />
+                        style="@style/heading"
+                        android:text="@string/temperature_min" />
                 </TableRow>
 
                 <TableRow style="@style/table_row_two">
 
                     <TextView
                         android:id="@+id/temperatureMin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/heading_value" />
                 </TableRow>
 
             </TableLayout>
@@ -152,18 +155,15 @@
 
                     <TextView
                         android:id="@+id/temperatureMaxTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/temperature_max"
-                        android:textSize="20dp" />
+                        style="@style/heading"
+                        android:text="@string/temperature_max" />
                 </TableRow>
 
                 <TableRow style="@style/table_row_two">
 
                     <TextView
                         android:id="@+id/temperatureMax"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/heading_value" />
                 </TableRow>
 
             </TableLayout>

@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadData(){
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        city = sharedPreferences.getString("city", "Pusto");
+        city = sharedPreferences.getString("city", "");
         cityText.setText(city);
     }
 

@@ -4,9 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,8 +27,18 @@ public class WeatherActivity extends AppCompatActivity {
     public static String BaseUrl = "https://api.openweathermap.org/";
     public static String AppId = "749561a315b14523a8f5f1ef95e45864";
     private String city;
-    private TextView statusText;
+
     private ImageView weatherIcon;
+
+    private TextView time;
+
+    private TextView cityName;
+    private TextView temperature;
+    private TextView pressure;
+    private TextView humidity;
+    private TextView temperatureMin;
+    private TextView temperatureMax;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +48,15 @@ public class WeatherActivity extends AppCompatActivity {
         Intent intent = getIntent();
         city = intent.getStringExtra("city");
 
-        //statusText = findViewById(R.id.statusText);
+        time = findViewById(R.id.time);
+        cityName = findViewById(R.id.cityName);
         weatherIcon = findViewById(R.id.weatherIcon);
+        temperature = findViewById(R.id.temperature);
+        pressure = findViewById(R.id.pressure);
+        humidity = findViewById(R.id.humidity);
+        temperatureMin = findViewById(R.id.temperatureMin);
+        temperatureMax = findViewById(R.id.temperatureMax);
+
         checkWeather();
     }
 
@@ -68,31 +94,27 @@ public class WeatherActivity extends AppCompatActivity {
                 Picasso.get().setLoggingEnabled(true);
                 Picasso.get().load(iconUrl).into(weatherIcon);
 
+                cityName.setText(String.valueOf(weatherResponse.name));
+                temperature.setText(String.valueOf((int)weatherResponse.main.temp + "℃"));
+                pressure.setText(String.valueOf((int)weatherResponse.main.pressure + " hPa"));
+                humidity.setText(String.valueOf((int)weatherResponse.main.humidity + "%"));
+                temperatureMin.setText(String.valueOf((int)weatherResponse.main.temp_min + "℃"));
+                temperatureMax.setText(String.valueOf((int)weatherResponse.main.temp_max + "℃"));
+                setTime(weatherResponse.timezone);
 
-                String stringBuilder =
-                        "Temperature: " +
-                        weatherResponse.main.temp +
-                        "\n" +
-                        "Temperature(Min): " +
-                        weatherResponse.main.temp_min +
-                        "\n" +
-                        "Temperature(Max): " +
-                        weatherResponse.main.temp_max +
-                        "\n" +
-                        "Humidity: " +
-                        weatherResponse.main.humidity +
-                        "\n" +
-                        "Pressure: " +
-                        weatherResponse.main.pressure;
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        setTime(weatherResponse.timezone);
+                        handler.postDelayed(this, 1000);
+                    }
+                }, 1000);
 
-                //statusText.setText(stringBuilder);
 
             }
 
             @Override
             public void onFailure(@NonNull Call<WeatherModel> call, @NonNull Throwable t) {
-                statusText.setText(t.getMessage());
-
                 Intent data = new Intent();
                 data.putExtra("code", "Error: " + String.valueOf(t.getMessage()));
 
@@ -100,5 +122,14 @@ public class WeatherActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void setTime(int shift) {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+        TimeZone UTC = TimeZone.getTimeZone("UTC");
+        dateFormat.setTimeZone(UTC);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, shift);
+        time.setText(dateFormat.format(cal.getTime()));
     }
 }
