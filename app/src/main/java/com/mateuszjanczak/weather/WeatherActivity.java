@@ -3,6 +3,7 @@ package com.mateuszjanczak.weather;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ImageView;
@@ -94,6 +95,8 @@ public class WeatherActivity extends AppCompatActivity {
                 Picasso.get().setLoggingEnabled(true);
                 Picasso.get().load(iconUrl).into(weatherIcon);
 
+                saveData(weatherResponse.name);
+
                 cityName.setText(String.valueOf(weatherResponse.name));
                 temperature.setText(String.valueOf((int)weatherResponse.main.temp + "℃"));
                 pressure.setText(String.valueOf((int)weatherResponse.main.pressure + " hPa"));
@@ -131,5 +134,12 @@ public class WeatherActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, shift);
         time.setText(dateFormat.format(cal.getTime()));
+    }
+
+    private void saveData(String city) {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("city", city);
+        editor.apply();
     }
 }

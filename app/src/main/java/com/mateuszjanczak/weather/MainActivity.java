@@ -30,14 +30,13 @@ public class MainActivity extends AppCompatActivity {
             assert data != null;
             String response = data.getStringExtra("code");
             Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+            loadData();
         }
     }
 
     public void showWeather(View view){
         EditText editText = findViewById(R.id.cityText);
         city = editText.getText().toString();
-
-        saveData(city);
 
         Intent intent = new Intent(this, WeatherActivity.class);
         intent.putExtra("city", city);
@@ -49,12 +48,5 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         city = sharedPreferences.getString("city", "");
         cityText.setText(city);
-    }
-
-    private void saveData(String city) {
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("city", city);
-        editor.apply();
     }
 }

@@ -13,7 +13,7 @@
         android:contentDescription="@string/obraz"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/graficzka" />
+        app:srcCompat="@drawable/image" />
 
     <EditText
         android:id="@+id/cityText"
@@ -22,7 +22,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/obramuwka"
+        android:background="@drawable/border"
         android:hint="@string/city"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
