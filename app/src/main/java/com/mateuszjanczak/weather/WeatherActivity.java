@@ -2,6 +2,8 @@ package com.mateuszjanczak.weather;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -40,6 +42,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView temperatureMin;
     private TextView temperatureMax;
 
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,20 @@ public class WeatherActivity extends AppCompatActivity {
         temperatureMax = findViewById(R.id.temperatureMax);
 
         checkWeather();
+
+
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullToRefresh();
+            }
+        });
+    }
+
+    void pullToRefresh(){
+        checkWeather();
+        swipeContainer.setRefreshing(false);
     }
 
     void checkWeather() {
