@@ -8,4 +8,6 @@
     <string name="humidity">Humidity</string>
     <string name="temperature_max">Temperature max</string>
     <string name="temperature_min">Temperature min</string>
+    <string name="internet_connection_required">Internet connection required</string>
+    <string name="ostatnia_aktualizacja">Ostatnia aktualizacja:</string>
 </resources>

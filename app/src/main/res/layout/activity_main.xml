@@ -6,14 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/internetError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FF5722"
+        android:gravity="center"
+        android:text="@string/internet_connection_required"
+        android:visibility="gone"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/image"
         android:layout_width="435dp"
         android:layout_height="400dp"
         android:contentDescription="@string/obraz"
+        app:srcCompat="@drawable/image"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image" />
+        app:layout_constraintTop_toBottomOf="@+id/internetError" />
 
     <EditText
         android:id="@+id/cityText"
@@ -42,5 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cityText" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

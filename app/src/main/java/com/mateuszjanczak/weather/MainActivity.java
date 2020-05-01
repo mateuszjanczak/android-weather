@@ -2,25 +2,36 @@ package com.mateuszjanczak.weather;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private String city;
     private EditText cityText;
+    private TextView internetError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         cityText = findViewById(R.id.cityText);
+        internetError = findViewById(R.id.internetError);
         loadData();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                setInternetStatus();
+                handler.postDelayed(this, 1000);
+            }
+        }, 1);
     }
 
     @Override
@@ -34,7 +45,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void setInternetStatus() {
+        if(!InternetTest.getInstance(this).isOnline()){
+            internetError.setVisibility(View.VISIBLE);
+            return;
+        }
+        internetError.setVisibility(View.GONE);
+    }
+
     public void showWeather(View view){
+
+        if(!InternetTest.getInstance(this).isOnline()){
+            return;
+        }
+
         EditText editText = findViewById(R.id.cityText);
         city = editText.getText().toString();
 
